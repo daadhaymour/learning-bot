@@ -24,17 +24,28 @@ def save_knowledge(filePath:str, data:dict):
 
 def find_best_match(user_question:str, questions: list[str]) -> str | None:
     """
-    
+    function that tries to find existing answer from list of questions in json file
+    user_question -> question from user
+    questions -> converted list of questions from bot_knowledge.json
+    returns None if answer is not found
     """
     matches: list = get_close_matches(user_question, questions, n=1, cutoff=0.6)
     return matches[0] if matches else None
 
 def get_answer(question:str, knowledge: dict) -> str | None:
+    """
+    if best match to  the user's question is found, then this function is used to get the answer to that question
+    question -> best match question
+    knowledge -> loaded knowledge base
+    """
     for q in knowledge['questions']:
         if q['question'] == question:
             return q['answer']
 
 def chat_bot():
+    """
+    main application 
+    """
     knowledge:dict = load_knowledgeBase('bot_knowledge.json')
 
     while True:
